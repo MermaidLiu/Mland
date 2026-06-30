@@ -39,14 +39,14 @@ Mland/
 └── docker-compose.yml    # Qdrant + Redis + PostgreSQL
 ```
 
-## 核心差异化
+## 核心能力
 
-| 能力 | Mland | ShipSwift |
-|------|-------|-----------|
-| 医院 HIS 对接 | ✅ Hospital Adapter | ❌ |
-| 智能体部署闭环 | ✅ MCP `deploy_solution` | ❌ |
-| 私有化 K8s Pro | ✅ 高可用 + 7×24 告警 | ❌ |
-| 三甲医院案例 | ✅ 长庚 + 航天中心 | ❌ |
+| 能力 | 说明 |
+|------|------|
+| 医院 HIS 对接 | Hospital Adapter 对接院内 HIS / PMS 系统 |
+| 智能体部署闭环 | MCP `deploy_solution` 一键部署 Docker / K8s |
+| 私有化 K8s Pro | 高可用集群 + 7×24 监控告警 |
+| 三甲医院案例 | 长庚医院 · 航天中心医院真实交付 |
 
 ## Hospital Adapter
 
