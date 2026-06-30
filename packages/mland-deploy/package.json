@@ -1,0 +1,12 @@
+{
+  "name": "@mland/deploy",
+  "version": "0.1.0",
+  "description": "Mland deployment configs — Docker & K8s (Pro)",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "deploy:docker": "docker compose -f ../../docker-compose.yml up -d",
+    "deploy:k8s:pmp": "kubectl apply -f k8s/pmp-agent/",
+    "deploy:k8s:translation": "kubectl apply -f k8s/medical-translation/"
+  }
+}

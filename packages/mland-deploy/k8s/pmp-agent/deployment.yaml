@@ -1,0 +1,78 @@
+# Mland PMP Agent — Kubernetes Deployment (Pro)
+# isPro: true — 高可用集群 + 7x24 监控告警
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mland-pmp-agent
+  namespace: mland
+  labels:
+    app: mland-pmp-agent
+    mland.io/isPro: "true"
+    mland.io/hospital: "航天中心医院"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mland-pmp-agent
+  template:
+    metadata:
+      labels:
+        app: mland-pmp-agent
+    spec:
+      containers:
+        - name: agent
+          image: mland/pmp-agent:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mland-secrets
+                  key: redis-url
+            - name: QDRANT_URL
+              value: "http://qdrant:6333"
+            - name: HIS_API_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: mland-secrets
+                  key: his-endpoint
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: mland-pmp-agent-hpa
+  namespace: mland
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mland-pmp-agent
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70

@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  gateway:
+    build: ./server
+    ports:
+      - "3000:3000"
+    environment:
+      - REDIS_URL=redis://host.docker.internal:6379
+      - QDRANT_URL=http://host.docker.internal:6333
+      - WECHAT_APP_ID=${WECHAT_APP_ID}
+      - HIS_API_ENDPOINT=${HIS_API_ENDPOINT}
+    depends_on:
+      - server
+
+  server:
+    build: ./server
+    ports:
+      - "3001:3001"

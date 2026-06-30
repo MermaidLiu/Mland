@@ -1,0 +1,19 @@
+{
+  "name": "@mland/core",
+  "version": "0.1.0",
+  "description": "Mland core enterprise adapters — Hospital HIS integration",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./hospital": "./dist/hospital-adapter.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "devDependencies": {
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "@mland/mcp-server",
+  "version": "0.1.0",
+  "description": "Mland MCP Server — list, get, and deploy AI agent solutions",
+  "license": "MIT",
+  "bin": {
+    "mland-mcp-server": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc && node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "typescript": "^5"
+  }
+}

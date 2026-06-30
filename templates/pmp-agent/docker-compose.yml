@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  agent:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MODEL_NAME=${MODEL_NAME:-gpt-4o}
+      - REDIS_URL=redis://host.docker.internal:6379
+      - QDRANT_URL=http://host.docker.internal:6333
+      - HIS_API_ENDPOINT=${HIS_API_ENDPOINT}
+      - HOSPITAL_NAME=${HOSPITAL_NAME:-航天中心医院}
+    restart: unless-stopped

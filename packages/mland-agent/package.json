@@ -1,0 +1,24 @@
+{
+  "name": "@mland/agent",
+  "version": "0.1.0",
+  "description": "Mland ReAct Agent orchestrator with tools and memory abstractions",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./orchestrator": "./dist/orchestrator/react-agent.js",
+    "./tools": "./dist/tools/index.js",
+    "./memory": "./dist/memory/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@mland/core": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5"
+  }
+}

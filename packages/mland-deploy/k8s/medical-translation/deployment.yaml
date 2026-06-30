@@ -1,0 +1,31 @@
+# Medical Translation — Kubernetes Deployment (Community / base)
+# isPro: false — 单副本基础部署
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mland-medical-translation
+  namespace: mland
+  labels:
+    app: mland-medical-translation
+    mland.io/isPro: "false"
+    mland.io/hospital: "长庚医院"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mland-medical-translation
+  template:
+    metadata:
+      labels:
+        app: mland-medical-translation
+    spec:
+      containers:
+        - name: gateway
+          image: mland/medical-translation:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: QDRANT_URL
+              value: "http://qdrant:6333"
+            - name: REDIS_URL
+              value: "redis://redis:6379"

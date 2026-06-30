@@ -34,3 +34,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# build outputs
+packages/*/dist
+mcp-server/dist
+packages/mland-cli/dist

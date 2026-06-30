@@ -1,0 +1,19 @@
+{
+  "name": "mland-cli",
+  "version": "0.1.0",
+  "description": "Mland CLI — add and deploy AI agent solutions to your hospital",
+  "license": "MIT",
+  "bin": {
+    "mland-cli": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "typescript": "^5"
+  },
+  "files": ["dist"]
+}

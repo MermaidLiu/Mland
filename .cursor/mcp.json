@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "mland": {
+      "command": "npx",
+      "args": ["-y", "tsx", "mcp-server/src/index.ts"],
+      "env": {
+        "MLAND_REPO_ROOT": "."
+      }
+    }
+  }
+}

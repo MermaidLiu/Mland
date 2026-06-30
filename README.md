@@ -1,36 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mland
 
-## Getting Started
+> **已服务医院：长庚医院、航天中心医院**
 
-First, run the development server:
+企业级 AI 智能体解决方案 — 专为三甲医院私有化部署设计。将复杂的 AI 能力打包成开箱即用的 Recipe（代码 + 配置 + 文档），支持 Docker 一键部署与 K8s 高可用 Pro 版。
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-cyan.svg)](LICENSE)
+[![Website](https://img.shields.io/badge/Website-mland.io-blue)](https://www.mland.io)
+
+## 快速安装
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# PMP 项目管理智能体 — 航天中心医院定制
+npx mland-cli add pmp-agent --hospital=航天中心医院
+
+# 医患翻译助手 — 长庚医院定制
+npx mland-cli add medical-translation --hospital=长庚医院
+
+# 一键拉起基础设施 (Qdrant + Redis + PostgreSQL)
+docker compose up -d
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 仓库结构
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+Mland/
+├── packages/
+│   ├── mland-agent/      # ReAct 编排器 + 工具 + 记忆抽象层
+│   ├── mland-core/       # Hospital Adapter (HIS 对接)
+│   ├── mland-deploy/     # K8s 部署 (Pro: isPro=true)
+│   └── mland-cli/        # CLI 工具
+├── templates/            # 开源 Blueprint 方案
+│   ├── medical-translation/   # 长庚医院
+│   └── pmp-agent/             # 航天中心医院
+├── mcp-server/           # MCP 服务器 (list / get / deploy)
+├── src/                  # 官方网站 (Next.js)
+└── docker-compose.yml    # Qdrant + Redis + PostgreSQL
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 核心差异化
 
-## Learn More
+| 能力 | Mland | ShipSwift |
+|------|-------|-----------|
+| 医院 HIS 对接 | ✅ Hospital Adapter | ❌ |
+| 智能体部署闭环 | ✅ MCP `deploy_solution` | ❌ |
+| 私有化 K8s Pro | ✅ 高可用 + 7×24 告警 | ❌ |
+| 三甲医院案例 | ✅ 长庚 + 航天中心 | ❌ |
 
-To learn more about Next.js, take a look at the following resources:
+## Hospital Adapter
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+对接医院内部 HIS / PMS 系统的企业级适配器：
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```typescript
+import { HospitalAdapter } from "@mland/core";
 
-## Deploy on Vercel
+const adapter = new HospitalAdapter({
+  endpoint: process.env.HIS_API_ENDPOINT!,
+  hospitalName: "航天中心医院",
+});
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+const projects = await adapter.getProjects();
+const patient = await adapter.getPatient("P001");
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## MCP 服务器
+
+在 Cursor 中配置 `.cursor/mcp.json`：
+
+```json
+{
+  "mcpServers": {
+    "mland": {
+      "command": "npx",
+      "args": ["-y", "@mland/mcp-server"]
+    }
+  }
+}
+```
+
+可用工具：
+- `list_solutions` — 列出所有方案
+- `get_solution` — 获取方案详情
+- `deploy_solution` — **一键部署** (Docker / K8s)
+
+## 商业化 (Freemium)
+
+| 版本 | 内容 | 许可 |
+|------|------|------|
+| **Community** | templates 基础代码 + Docker | MIT 开源 |
+| **Pro** | K8s 高可用 + 监控告警 + 定制术语库 | 商业授权 |
+
+Pro 版 K8s 配置见 `packages/mland-deploy/k8s/`（`isPro: true` 标记）。
+
+## 开发
+
+```bash
+# 安装依赖
+npm install
+
+# 启动基础设施
+docker compose up -d
+
+# 构建 packages
+npm run build:packages
+
+# 启动官网
+npm run dev
+```
+
+## 官网
+
+[www.mland.io](https://www.mland.io) — 在线体验 Agent Playground
+
+## License
+
+- `templates/` 及 `packages/mland-agent`, `packages/mland-core` — **MIT**
+- `packages/mland-deploy/k8s/` Pro 配置 — 商业授权，联系 sales@mland.io
