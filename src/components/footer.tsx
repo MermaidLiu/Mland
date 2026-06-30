@@ -32,6 +32,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/pricing" className="hover:text-foreground">
+                  Pro 定价
+                </Link>
+              </li>
+              <li>
                 <Link href="/docs" className="hover:text-foreground">
                   开发者文档
                 </Link>

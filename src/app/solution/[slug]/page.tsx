@@ -1,7 +1,5 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import {
   getSolutionBySlug,
   getRelatedSolutions,
@@ -12,6 +10,7 @@ import {
 } from "@/lib/data";
 import { getDeployGuide } from "@/lib/markdown";
 import { SolutionSidebar } from "@/components/solution-sidebar";
+import { SolutionDetailTabs } from "@/components/solution-detail-tabs";
 import { AgentPlayground } from "@/components/agent-playground";
 import { SolutionCard } from "@/components/solution-card";
 import { Badge } from "@/components/ui/badge";
@@ -65,7 +64,15 @@ export default function SolutionDetailPage({ params }: PageProps) {
             >
               {ASSET_TYPE_LABELS[solution.assetType]}
             </Badge>
-            {solution.isPro && <Badge>Pro</Badge>}
+            {solution.isPro ? (
+              <Badge className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white">
+                Pro
+              </Badge>
+            ) : (
+              <Badge variant="outline" className="border-orange-500/30 text-orange-600">
+                开源免费版
+              </Badge>
+            )}
           </div>
           <h1 className="text-3xl font-bold md:text-4xl">{solution.title}</h1>
           <p className="mt-2 max-w-2xl text-muted-foreground">
@@ -91,11 +98,7 @@ export default function SolutionDetailPage({ params }: PageProps) {
 
       {/* Main content + Sidebar */}
       <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
-        <article className="prose-mland min-w-0 rounded-xl border bg-card p-6 md:p-8">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {deployGuide}
-          </ReactMarkdown>
-        </article>
+        <SolutionDetailTabs solution={solution} deployGuide={deployGuide} />
         <aside>
           <SolutionSidebar solution={solution} />
         </aside>

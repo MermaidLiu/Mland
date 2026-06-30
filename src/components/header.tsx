@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Button } from "@/components/ui/button";
+import { ProUpgradeButton } from "@/components/pro-upgrade-button";
 import { APP_NAME, GITHUB_REPO_URL } from "@/lib/data";
 
 const navItems = [
   { href: "/industries", label: "行业方案" },
+  { href: "/pricing", label: "定价" },
   { href: "/docs/getting-started", label: "开发者文档" },
   { href: GITHUB_REPO_URL, label: "GitHub", external: true },
 ] as const;
@@ -48,9 +49,7 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Button asChild size="sm" className="hidden sm:inline-flex">
-            <a href="mailto:sales@mland.io">联系销售</a>
-          </Button>
+          <ProUpgradeButton className="hidden sm:inline-flex" />
         </div>
       </div>
     </header>

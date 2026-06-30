@@ -11,6 +11,7 @@ import {
 } from "@/lib/data";
 import { SolutionCard } from "@/components/solution-card";
 import { AssetTypeNav, MlandFactory } from "@/components/home-sections";
+import { OpenVsProSection } from "@/components/open-vs-pro-section";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -150,6 +151,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Open Source vs Pro Comparison */}
+      <OpenVsProSection />
 
       {/* GitHub Banner */}
       <section className="py-12">

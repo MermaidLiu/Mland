@@ -5,6 +5,8 @@ import { Send, Bot, User, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DemoUploadZone } from "@/components/demo-upload-zone";
+import { Badge } from "@/components/ui/badge";
 
 interface Message {
   role: "user" | "assistant";
@@ -66,12 +68,17 @@ export function AgentPlayground({ agentName, agentSlug }: AgentPlaygroundProps) 
   return (
     <Card className="overflow-hidden border-primary/20">
       <CardHeader className="border-b bg-primary/5 py-4">
-        <CardTitle className="flex items-center gap-2 text-base">
-          <Bot className="h-5 w-5 text-primary" />
-          Agent Playground — 在线试玩
-        </CardTitle>
+        <div className="flex items-center justify-between gap-2">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Bot className="h-5 w-5 text-primary" />
+            Agent Playground — 在线试玩
+          </CardTitle>
+          <Badge variant="outline" className="border-orange-500/30 text-[10px] text-orange-600">
+            仅模拟数据
+          </Badge>
+        </div>
         <p className="text-xs text-muted-foreground">
-          无需登录，立即体验 {agentName} 的对话能力
+          无需登录，立即体验 {agentName} 的对话能力（开源沙盒 · CPU 推理）
         </p>
       </CardHeader>
       <CardContent className="p-0">
@@ -126,6 +133,9 @@ export function AgentPlayground({ agentName, agentSlug }: AgentPlaygroundProps) 
           <Button size="icon" onClick={handleSend} disabled={loading || !input.trim()}>
             <Send className="h-4 w-4" />
           </Button>
+        </div>
+        <div className="border-t p-3">
+          <DemoUploadZone label="上传病历/影像测试 Pro 拦截" className="p-4" />
         </div>
       </CardContent>
     </Card>
