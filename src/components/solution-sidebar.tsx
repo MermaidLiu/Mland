@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GITHUB_REPO_URL, type Solution } from "@/lib/data";
+import { PRO_PRICE_LABEL } from "@/lib/pricing";
 
 interface SolutionSidebarProps {
   solution: Solution;
@@ -59,7 +60,7 @@ export function SolutionSidebar({ solution }: SolutionSidebarProps) {
             <p className="text-sm font-medium">Pro 版</p>
             <p className="mt-1 text-xs text-muted-foreground">
               完整源码 + K8s 高可用 + 监控告警
-              {solution.price && ` · ¥${solution.price.toLocaleString()}`}
+              {` · ${solution.priceLabel ?? PRO_PRICE_LABEL}/病例`}
             </p>
           </div>
         )}

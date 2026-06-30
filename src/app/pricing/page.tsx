@@ -6,11 +6,17 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProUpgradeButton } from "@/components/pro-upgrade-button";
 import { FeatureComparisonTable } from "@/components/feature-comparison-table";
+import {
+  PRO_PRICE_LABEL,
+  PRO_PRICE_NOTE_ZH,
+  PRO_PRICE_PER_CASE_USD,
+  formatProMonthlyEstimate,
+} from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "定价",
   description:
-    "Mland Pro 定价 — 从免费开源到企业私有化部署，按量付费，数据绝对不出院。",
+    "Mland Pro — $0.05 per medical case. Open source to private deployment.",
 };
 
 const tiers = [
@@ -38,11 +44,11 @@ const tiers = [
   {
     name: "专业版",
     tier: "Pro",
-    price: "联系销售",
-    period: "",
+    price: PRO_PRICE_LABEL,
+    period: " / 病例",
     icon: Sparkles,
     description: "真实医疗数据 + GPU 加速 + 加密存储",
-    priceNote: "按实际数据存储量（GB/月）计费，用多少付多少，绝不浪费。",
+    priceNote: `${PRO_PRICE_NOTE_ZH}（例：1 万例/月 ≈ ${formatProMonthlyEstimate(10000)}）`,
     features: [
       { text: "真实影像/化验单上传", included: true },
       { text: "AES-256 加密持久化存储", included: true },
@@ -52,8 +58,8 @@ const tiers = [
       { text: "K8s 高可用 (可选)", included: true },
       { text: "7×24 专属工程师", included: false },
     ],
-    cta: "联系销售获取报价",
-    ctaHref: "mailto:sales@mland.io?subject=Mland Pro 报价",
+    cta: "开始使用 Pro",
+    ctaHref: `mailto:sales@mland.io?subject=Mland Pro — ${PRO_PRICE_PER_CASE_USD}/case`,
     ctaVariant: "default" as const,
     highlight: true,
   },

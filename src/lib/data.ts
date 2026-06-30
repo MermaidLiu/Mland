@@ -1,3 +1,5 @@
+import { PRO_PRICE_LABEL, PRO_PRICE_PER_CASE_USD } from "./pricing";
+
 export type AssetType = "agent" | "miniapp" | "app" | "admin";
 export type Industry = "medical" | "finance" | "manufacturing" | "education";
 
@@ -17,6 +19,7 @@ export interface Solution {
   deployCommand: string;
   isPro: boolean;
   price?: number;
+  priceLabel?: string;
   customerCases: string[];
   techStack: string[];
   features: SolutionFeature[];
@@ -83,7 +86,8 @@ export const solutions: Solution[] = [
       "专为医院信息化建设项目设计的 AI 智能体，基于 ReAct 架构调用 PMP 计算工具、文档解析工具和院内项目数据源，实现进度跟踪、风险预警和自动化报告生成。",
     deployCommand: "npx mland-cli add pmp-agent --hospital=航天中心医院",
     isPro: true,
-    price: 98000,
+    price: PRO_PRICE_PER_CASE_USD,
+    priceLabel: PRO_PRICE_LABEL,
     customerCases: ["航天中心医院"],
     techStack: ["LangChain", "GPT-4o", "Qdrant", "Redis", "Docker", "K8s"],
     features: [
