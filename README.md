@@ -1,5 +1,5 @@
 # Mland
-![Uploading Gemini_Generated_Image_p300lap300lap300.png…]()
+
 > **已服务医院：长庚医院、航天中心医院**
 
 企业级 AI 智能体解决方案 — 专为三甲医院私有化部署设计。将复杂的 AI 能力打包成开箱即用的 Recipe（代码 + 配置 + 文档），支持 Docker 一键部署与 K8s 高可用 Pro 版。
