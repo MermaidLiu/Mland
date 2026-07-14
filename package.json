@@ -16,6 +16,8 @@
     "lint": "next lint",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
+    "skill:academic-search:build": "docker compose -f templates/nature-academic-search/docker-compose.yml build",
+    "skill:academic-search:run": "docker compose -f templates/nature-academic-search/docker-compose.yml run --rm academic-search",
     "mcp": "npm run start --workspace=@mland/mcp-server"
   },
   "dependencies": {

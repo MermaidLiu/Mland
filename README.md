@@ -1,5 +1,7 @@
 # Mland
 
+English | [简体中文](./README.zh-CN.md)
+
 ![PMP Intelligent Platform — Full-stack Medical Research Workbench](./assets/pmp-platform-hero.png)
 
 **AI-native enterprise agent platform — production-ready code + private deployment recipes that let LLMs ship directly into tier-3 hospital workflows.**
@@ -10,7 +12,7 @@
 [![MCP](https://img.shields.io/badge/MCP-Server-purple)](mcp-server/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED)](docker-compose.yml)
 
-[Quick Start](#quick-start) · [Blueprints](#blueprints) · [Private Deployment](#need-private-deployment-we-ship-it) · [Free vs Pro](#free-vs-pro) · [Docs](https://www.mland.io/docs/getting-started)
+[Quick Start](#quick-start) · [MedSkill Canvas](#medskill-canvas) · [Blueprints](#blueprints) · [Private Deployment](#need-private-deployment-we-ship-it) · [Free vs Pro](#free-vs-pro) · [Docs](https://www.mland.io/en/docs/getting-started)
 
 ---
 
@@ -20,7 +22,32 @@ One command gives your AI assistant a complete enterprise agent stack — ReAct 
 
 > **Hospitals served:** Chang Gung Hospital · Aerospace Center Hospital
 >
-> Browse every solution at **[www.mland.io](https://www.mland.io)** — Agent Playground, deploy guides, and Pro pricing in one place.
+> Browse every solution at **[www.mland.io](https://www.mland.io)** — MedSkill Canvas, Agent Playground, deploy guides, and Pro pricing in one place. **Bilingual:** `/en` · `/zh`.
+
+---
+
+## MedSkill Canvas
+
+**Natural Language → Code-Based Workflow** — a low-code medical research canvas for students and contributors.
+
+| Module | Description |
+|--------|-------------|
+| **AI Canvas** | Describe your research goal → visual workflow nodes (preprocess → Cox regression → SCI outputs) with UI/code flip view |
+| **SKILL Store** | Browse Docker-packaged research tools — clinical stats, bioinformatics, imaging, omics |
+| **Contributor Hub** | Git-ops workflow — submit GitHub repos/PRs, auto-generate `medskill.json`, earn compute-coin revenue |
+| **Privacy Interceptor** | Local PHI scan before every run — Patient_ID / Hospital_No hashed on-device |
+
+```bash
+npm run dev
+# Open http://localhost:3000/zh  (or /en)
+```
+
+**Packaged SKILL example** — [nature-academic-search](https://github.com/wp-a/nature-academic-search) (PubMed / CrossRef / arXiv):
+
+```bash
+npm run skill:academic-search:build
+npm run skill:academic-search:run
+```
 
 ---
 
@@ -30,12 +57,12 @@ The open-source edition gets you 80% of the engineering foundation. For the last
 
 | | |
 |---|---|
-| ⚡ **2-week PoC** | Run core workflows in your on-prem environment using a Blueprint |
+| ⚡ **PoC Sprint** | **$5,000 down payment** · **first draft in 1 day** · Blueprint deployed in your network |
 | 🚀 **4–8 week delivery** | Production private deployment — Docker or K8s |
 | 🏥 **Pro** | Hospital Adapter, terminology import, 24/7 engineers — **$0.05 / case** |
 | 💵 **Enterprise** | Source-level customization, domestic IT stack, data never leaves the hospital |
 
-**Contact:** sales@mland.io · [View Pro pricing](https://www.mland.io/pricing)
+**Contact:** [mermaid_liu@outlook.com](mailto:mermaid_liu@outlook.com) · [View Pro pricing](https://www.mland.io/en/pricing)
 
 ---
 
@@ -116,8 +143,9 @@ Each Blueprint ships full source code, `.env` templates, `deploy_guide.md`, and 
 | Solution | Industry | Asset type |
 |----------|----------|------------|
 | Manufacturing Inspection AI Assistant | Manufacturing | Mobile App |
+| **Academic Search** ([wp-a/nature-academic-search](https://github.com/wp-a/nature-academic-search)) | Bioinformatics | Docker SKILL · PubMed / CrossRef / arXiv |
 
-> Full catalog: [www.mland.io/industries](https://www.mland.io/industries)
+> Full catalog: [www.mland.io/en/industries](https://www.mland.io/en/industries)
 
 ---
 
@@ -171,21 +199,22 @@ npx mland-cli list
 ```
 Mland/
 ├── packages/
-│   ├── mland-agent/          # ReAct orchestrator + Tools + Memory
-│   │   ├── orchestrator/     #   ReAct Agent
-│   │   ├── tools/            #   Medical translation · PMP · Risk
-│   │   └── memory/           #   Redis · Vector DB layers
-│   ├── mland-core/           # Hospital Adapter (HIS)
-│   ├── mland-deploy/         # K8s (Pro)
-│   └── mland-cli/            # CLI
-├── templates/                # Open Blueprints
-│   ├── medical-translation/  #   Chang Gung Hospital
-│   ├── pmp-agent/            #   Aerospace Center Hospital
-│   └── manufacturing-inspection/
-├── mcp-server/               # MCP server (list / get / deploy)
-├── src/                      # Marketing site (Next.js)
-├── assets/                   # README & docs assets
-└── docker-compose.yml        # Qdrant + Redis + PostgreSQL
+│   ├── mland-agent/              # ReAct orchestrator + Tools + Memory
+│   ├── mland-core/               # Hospital Adapter (HIS)
+│   ├── mland-deploy/             # K8s (Pro)
+│   └── mland-cli/                # CLI
+├── templates/                    # Open Blueprints + Docker SKILLs
+│   ├── medical-translation/      #   Chang Gung Hospital
+│   ├── pmp-agent/                #   Aerospace Center Hospital
+│   ├── manufacturing-inspection/
+│   └── nature-academic-search/   #   PubMed / CrossRef / arXiv search
+├── mcp-server/                   # MCP server (list / get / deploy)
+├── src/
+│   ├── app/[locale]/             #   i18n routes (/en, /zh)
+│   ├── components/medskill/      #   MedSkill Canvas SPA
+│   └── i18n/                     #   EN / ZH dictionaries
+├── assets/                       # README & docs assets
+└── docker-compose.yml            # Qdrant + Redis + PostgreSQL
 ```
 
 ---
@@ -263,7 +292,7 @@ Contributions welcome!
 ## License
 
 - `templates/` · `packages/mland-agent` · `packages/mland-core` · `mcp-server` — **MIT License**
-- `packages/mland-deploy/k8s/` Pro configs — commercial license · [sales@mland.io](mailto:sales@mland.io)
+- `packages/mland-deploy/k8s/` Pro configs — commercial license · [mermaid_liu@outlook.com](mailto:mermaid_liu@outlook.com)
 
 ---
 

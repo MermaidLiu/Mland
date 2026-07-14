@@ -1,0 +1,23 @@
+{
+  "slug": "nature-academic-search",
+  "name": "Academic Search 学术搜索",
+  "version": "1.0.0",
+  "runtime": "Python 3.10",
+  "github": "https://github.com/wp-a/nature-academic-search",
+  "category": "bioinformatics",
+  "costCoins": 45,
+  "contributor": "wp-a / 开源社区",
+  "description": "多源文献搜索（PubMed / CrossRef / arXiv）、引用格式化、MeSH 词表查询",
+  "inputs": {
+    "paramsJson": "/data/params.json"
+  },
+  "outputs": {
+    "resultJson": "/data/output/result.json"
+  },
+  "actions": [
+    "search_papers",
+    "get_paper_by_id",
+    "get_citation",
+    "lookup_mesh"
+  ]
+}

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { ShieldAlert, Lock, Sparkles } from "lucide-react";
 import {
   Dialog,
@@ -11,6 +10,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/components/i18n-provider";
+import { LocaleLink } from "@/components/locale-link";
 
 interface UpgradeModalProps {
   open: boolean;
@@ -23,6 +24,9 @@ export function UpgradeModal({
   onOpenChange,
   fileName,
 }: UpgradeModalProps) {
+  const { dict } = useI18n();
+  const t = dict.upgradeModal;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="overflow-hidden border-orange-500/20 sm:max-w-md">
@@ -32,20 +36,15 @@ export function UpgradeModal({
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-orange-500/10">
             <ShieldAlert className="h-7 w-7 text-orange-500" />
           </div>
-          <DialogTitle className="text-center text-xl">
-            Upgrade Required
-          </DialogTitle>
+          <DialogTitle className="text-center text-xl">{t.title}</DialogTitle>
           <DialogDescription className="text-center text-base leading-relaxed">
-            检测到您正在上传
+            {t.detectedUpload}{" "}
             {fileName ? (
-              <span className="font-mono font-medium text-foreground">
-                {" "}
-                {fileName}{" "}
-              </span>
+              <span className="font-mono font-medium text-foreground">{fileName}</span>
             ) : (
-              " 真实医疗数据"
+              t.realMedicalData
             )}
-            。免费版无法保障数据安全与合规，请升级至 Pro 版以继续。
+            {t.descriptionPunct} {t.description}
           </DialogDescription>
         </DialogHeader>
 
@@ -54,14 +53,11 @@ export function UpgradeModal({
             <Lock className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
             <div className="space-y-1 text-muted-foreground">
               <p>
-                <strong className="text-foreground">开源版限制：</strong>
-                仅限模拟数据，24h 自动清除，重启即焚
+                <strong className="text-foreground">{t.freeLimitTitle}</strong> {t.freeLimitBody}
               </p>
               <p>
-                <strong className="text-emerald-600 dark:text-emerald-400">
-                  Pro 版保障：
-                </strong>
-                AES-256 加密存储 · 持久化卷 · 院内私有化 · 7×24 工程师
+                <strong className="text-emerald-600 dark:text-emerald-400">{t.proTitle}</strong>{" "}
+                {t.proBody}
               </p>
             </div>
           </div>
@@ -73,17 +69,17 @@ export function UpgradeModal({
             size="lg"
             className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:from-emerald-600 hover:to-teal-600"
           >
-            <Link href="/pricing" onClick={() => onOpenChange(false)}>
+            <LocaleLink href="/pricing" onClick={() => onOpenChange(false)}>
               <Sparkles className="mr-2 h-4 w-4" />
-              查看 Pro 定价
-            </Link>
+              {t.cta}
+            </LocaleLink>
           </Button>
           <Button
             variant="ghost"
             className="w-full text-muted-foreground"
             onClick={() => onOpenChange(false)}
           >
-            继续使用模拟数据
+            {t.continueDemo}
           </Button>
         </DialogFooter>
       </DialogContent>

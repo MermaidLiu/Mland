@@ -1,46 +1,30 @@
-import Link from "next/link";
-import { notFound } from "next/navigation";
+"use client";
+
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { docsTree, getDocBySlug, getDefaultDoc } from "@/lib/docs";
 import { cn } from "@/lib/utils";
-import type { Metadata } from "next";
+import { docsTree, getDocBySlug, getDefaultDoc } from "@/lib/docs";
+import { useI18n } from "@/components/i18n-provider";
+import { LocaleLink } from "@/components/locale-link";
 
-interface PageProps {
-  params: { slug?: string[] };
+interface DocsPageContentProps {
+  slug?: string;
 }
 
-export function generateStaticParams() {
-  return [
-    { slug: [] },
-    ...docsTree.map((doc) => ({ slug: [doc.slug] })),
-  ];
-}
-
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const slug = params.slug?.[0];
-  const doc = slug ? getDocBySlug(slug) : getDefaultDoc();
-  return {
-    title: doc ? `${doc.title} - 开发者文档` : "开发者文档",
-  };
-}
-
-export default function DocsPage({ params }: PageProps) {
-  const slug = params.slug?.[0];
+export function DocsPageContent({ slug }: DocsPageContentProps) {
+  const { dict } = useI18n();
   const doc = slug ? getDocBySlug(slug) : getDefaultDoc();
 
-  if (!doc) notFound();
+  if (!doc) return null;
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid gap-8 lg:grid-cols-[240px_1fr]">
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <nav className="space-y-1">
-            <p className="mb-4 text-sm font-semibold">开发者文档</p>
+            <p className="mb-4 text-sm font-semibold">{dict.docs.title}</p>
             {docsTree.map((item) => (
-              <Link
+              <LocaleLink
                 key={item.slug}
                 href={`/docs/${item.slug}`}
                 className={cn(
@@ -51,15 +35,13 @@ export default function DocsPage({ params }: PageProps) {
                 )}
               >
                 {item.title}
-              </Link>
+              </LocaleLink>
             ))}
           </nav>
         </aside>
 
         <article className="prose-mland min-w-0 rounded-xl border bg-card p-6 md:p-8">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {doc.content}
-          </ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{doc.content}</ReactMarkdown>
         </article>
       </div>
     </div>

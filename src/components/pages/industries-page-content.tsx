@@ -5,10 +5,11 @@ import { motion } from "framer-motion";
 import {
   solutions,
   getSolutionsByIndustry,
-  INDUSTRY_LABELS,
   type Industry,
 } from "@/lib/data";
 import { SolutionCard } from "@/components/solution-card";
+import { useI18n } from "@/components/i18n-provider";
+import { CONTACT_EMAIL } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 const industries: Industry[] = [
@@ -18,24 +19,25 @@ const industries: Industry[] = [
   "education",
 ];
 
-export default function IndustriesPage() {
+export function IndustriesPageContent() {
+  const { dict } = useI18n();
+  const t = dict.industries;
   const [activeIndustry, setActiveIndustry] = useState<Industry>("medical");
-
   const filtered = getSolutionsByIndustry(activeIndustry);
+  const medicalCount = solutions.filter((s) => s.industry === "medical").length;
 
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="mx-auto max-w-2xl text-center">
-        <h1 className="text-3xl font-bold md:text-4xl">行业解决方案</h1>
-        <p className="mt-4 text-muted-foreground">
-          按行业浏览经过验证的 AI 解决方案，医疗行业案例已置顶展示
-        </p>
+        <h1 className="text-3xl font-bold md:text-4xl">{t.title}</h1>
+        <p className="mt-4 text-muted-foreground">{t.subtitle}</p>
       </div>
 
       <div className="mt-10 flex flex-wrap justify-center gap-2">
         {industries.map((industry) => (
           <button
             key={industry}
+            type="button"
             onClick={() => setActiveIndustry(industry)}
             className={cn(
               "rounded-full border px-5 py-2 text-sm font-medium transition-all",
@@ -44,7 +46,7 @@ export default function IndustriesPage() {
                 : "border-border bg-card hover:border-primary/50"
             )}
           >
-            {INDUSTRY_LABELS[industry]}
+            {t.labels[industry]}
           </button>
         ))}
       </div>
@@ -66,16 +68,14 @@ export default function IndustriesPage() {
         ) : (
           <div className="rounded-xl border bg-muted/30 py-16 text-center">
             <p className="text-muted-foreground">
-              {INDUSTRY_LABELS[activeIndustry]}行业方案即将上线
+              {t.labels[activeIndustry]} — {t.comingSoon}
             </p>
             <p className="mt-2 text-sm text-muted-foreground">
-              已有 {solutions.filter((s) => s.industry === "medical").length}{" "}
-              个医疗案例可供参考，欢迎
-              <a href="mailto:sales@mland.io" className="text-primary hover:underline">
-                {" "}
-                联系我们{" "}
-              </a>
-              定制 {INDUSTRY_LABELS[activeIndustry]} 方案
+              {t.medicalCountPrefix} {medicalCount} {t.medicalCountSuffix}{" "}
+              <a href={`mailto:${CONTACT_EMAIL}`} className="text-primary hover:underline">
+                {t.contactUs}
+              </a>{" "}
+              {t.emptyContact} {t.labels[activeIndustry]} {t.emptySolution}
             </p>
           </div>
         )}

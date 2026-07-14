@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Shield, Lock, Zap, Database } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProUpgradeButton } from "@/components/pro-upgrade-button";
+import { CONTACT_EMAIL } from "@/lib/data";
 
 export function OpenVsProSection() {
   return (
@@ -121,7 +122,7 @@ export function OpenVsProSection() {
                 size="lg"
                 className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:from-emerald-600 hover:to-teal-600"
               >
-                <Link href="mailto:sales@mland.io?subject=Mland Pro 报价咨询">
+                <Link href={`mailto:${CONTACT_EMAIL}?subject=Mland Pro 报价咨询`}>
                   联系销售获取 Pro 报价
                 </Link>
               </Button>

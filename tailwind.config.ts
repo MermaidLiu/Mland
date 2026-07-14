@@ -48,6 +48,12 @@ const config: Config = {
           navy: "#0F172A",
           cyan: "#06B6D4",
         },
+        med: {
+          purple: "#56004F",
+          "purple-dark": "#3D0038",
+          "purple-light": "#6F1A68",
+          amber: "#FBBF24",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

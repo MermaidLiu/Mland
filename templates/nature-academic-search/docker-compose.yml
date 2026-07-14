@@ -1,0 +1,15 @@
+services:
+  academic-search:
+    build: .
+    image: medskill/nature-academic-search:1.0.0
+    container_name: medskill-academic-search
+    environment:
+      PUBMED_EMAIL: ${PUBMED_EMAIL:-user@example.com}
+      CROSSREF_MAILTO: ${CROSSREF_MAILTO:-user@example.com}
+      NCBI_API_KEY: ${NCBI_API_KEY:-}
+      http_proxy: ${http_proxy:-}
+      https_proxy: ${https_proxy:-}
+    volumes:
+      - ./data:/data
+    # 默认读取 ./data/params.json，输出 ./data/output/result.json
+    restart: "no"

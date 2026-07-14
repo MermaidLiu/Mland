@@ -1,0 +1,6 @@
+{
+  "action": "search_papers",
+  "query": "Cox proportional hazards survival analysis",
+  "sources": ["pubmed", "crossref", "arxiv"],
+  "rows": 5
+}

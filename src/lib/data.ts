@@ -154,4 +154,7 @@ export const GITHUB_REPO_URL =
   process.env.NEXT_PUBLIC_GITHUB_REPO_URL ??
   "https://github.com/MermaidLiu/Mland";
 
+export const CONTACT_EMAIL =
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "mermaid_liu@outlook.com";
+
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME ?? "Mland";

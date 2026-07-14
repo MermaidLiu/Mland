@@ -1,14 +1,17 @@
-import Link from "next/link";
+"use client";
+
 import Image from "next/image";
 import {
   Solution,
-  INDUSTRY_LABELS,
-  ASSET_TYPE_LABELS,
   ASSET_TYPE_COLORS,
+  type AssetType,
+  type Industry,
 } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/components/i18n-provider";
+import { LocaleLink } from "@/components/locale-link";
 
 interface SolutionCardProps {
   solution: Solution;
@@ -16,8 +19,12 @@ interface SolutionCardProps {
 }
 
 export function SolutionCard({ solution, className }: SolutionCardProps) {
+  const { dict } = useI18n();
+  const industryLabel = dict.industries.labels[solution.industry as Industry];
+  const assetLabel = dict.industries.assetTypes[solution.assetType as AssetType];
+
   return (
-    <Link href={`/solution/${solution.slug}`}>
+    <LocaleLink href={`/solution/${solution.slug}`}>
       <Card
         className={cn(
           "group h-full overflow-hidden transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5",
@@ -40,13 +47,13 @@ export function SolutionCard({ solution, className }: SolutionCardProps) {
         <CardContent className="p-4">
           <div className="mb-2 flex flex-wrap gap-2">
             <Badge variant="outline" className="text-xs">
-              {INDUSTRY_LABELS[solution.industry]}
+              {industryLabel}
             </Badge>
             <Badge
               variant="outline"
               className={cn("text-xs border", ASSET_TYPE_COLORS[solution.assetType])}
             >
-              {ASSET_TYPE_LABELS[solution.assetType]}
+              {assetLabel}
             </Badge>
           </div>
           <h3 className="font-semibold leading-snug group-hover:text-primary">
@@ -59,14 +66,14 @@ export function SolutionCard({ solution, className }: SolutionCardProps) {
         {solution.customerCases.length > 0 && (
           <CardFooter className="border-t bg-muted/30 px-4 py-3">
             <p className="text-xs text-muted-foreground">
-              已服务：
+              {dict.industries.served}
               <span className="font-medium text-foreground">
-                {solution.customerCases.join("、")}
+                {solution.customerCases.join(dict.industries.listSeparator)}
               </span>
             </p>
           </CardFooter>
         )}
       </Card>
-    </Link>
+    </LocaleLink>
   );
 }

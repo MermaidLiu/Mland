@@ -8,9 +8,10 @@ import { cn } from "@/lib/utils";
 interface CopyCommandProps {
   command: string;
   className?: string;
+  showPrompt?: boolean;
 }
 
-export function CopyCommand({ command, className }: CopyCommandProps) {
+export function CopyCommand({ command, className, showPrompt }: CopyCommandProps) {
   const [copied, setCopied] = useState(false);
 
   async function handleCopy() {
@@ -27,6 +28,7 @@ export function CopyCommand({ command, className }: CopyCommandProps) {
       )}
     >
       <code className="flex-1 overflow-x-auto font-mono text-xs sm:text-sm">
+        {showPrompt && <span className="text-muted-foreground">$ </span>}
         {command}
       </code>
       <Button

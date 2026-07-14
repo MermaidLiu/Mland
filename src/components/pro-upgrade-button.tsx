@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/components/i18n-provider";
+import { LocaleLink } from "@/components/locale-link";
 
 interface ProUpgradeButtonProps {
   className?: string;
@@ -13,9 +14,11 @@ export function ProUpgradeButton({
   className,
   size = "sm",
 }: ProUpgradeButtonProps) {
+  const { dict } = useI18n();
+
   return (
     <div className="group relative">
-      <Link
+      <LocaleLink
         href="/pricing"
         className={cn(
           "relative inline-flex items-center gap-1.5 rounded-md font-semibold text-white shadow-lg transition-all hover:scale-105 hover:shadow-emerald-500/25",
@@ -28,16 +31,15 @@ export function ProUpgradeButton({
         )}
       >
         <Sparkles className="h-3.5 w-3.5" />
-        升级 Pro
-      </Link>
+        {dict.nav.upgradePro}
+      </LocaleLink>
 
-      {/* Tooltip */}
       <div
         role="tooltip"
         className="pointer-events-none absolute right-0 top-full z-50 mt-2 w-56 translate-y-1 rounded-lg border bg-popover px-3 py-2 text-xs text-popover-foreground opacity-0 shadow-lg transition-all group-hover:translate-y-0 group-hover:opacity-100"
       >
         <div className="absolute -top-1 right-6 h-2 w-2 rotate-45 border-l border-t bg-popover" />
-        解锁真实医疗数据处理与私有化部署
+        {dict.nav.proTooltip}
       </div>
     </div>
   );

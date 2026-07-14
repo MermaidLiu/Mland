@@ -4,48 +4,50 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+    --background: 0 0% 99%;
+    --foreground: 224 71% 4%;
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 224 71% 4%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 188 94% 43%;
+    --popover-foreground: 224 71% 4%;
+    --primary: 188 94% 42%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222 47% 11%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 224 71% 4%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+    --accent: 220 14% 96%;
+    --accent-foreground: 224 71% 4%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 188 94% 43%;
-    --radius: 0.625rem;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 188 94% 42%;
+    --radius: 0.75rem;
+    --grid-color: 220 13% 91%;
   }
 
   .dark {
-    --background: 222 47% 11%;
+    --background: 222 47% 6%;
     --foreground: 210 40% 98%;
-    --card: 222 47% 13%;
+    --card: 222 47% 8%;
     --card-foreground: 210 40% 98%;
-    --popover: 222 47% 13%;
+    --popover: 222 47% 8%;
     --popover-foreground: 210 40% 98%;
     --primary: 188 94% 43%;
-    --primary-foreground: 222 47% 11%;
-    --secondary: 217 33% 17%;
+    --primary-foreground: 222 47% 6%;
+    --secondary: 217 33% 14%;
     --secondary-foreground: 210 40% 98%;
-    --muted: 217 33% 17%;
+    --muted: 217 33% 14%;
     --muted-foreground: 215 20% 65%;
-    --accent: 217 33% 17%;
+    --accent: 217 33% 14%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62% 30%;
     --destructive-foreground: 0 0% 98%;
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
+    --border: 217 33% 16%;
+    --input: 217 33% 16%;
     --ring: 188 94% 43%;
+    --grid-color: 217 33% 16%;
   }
 }
 
@@ -61,6 +63,14 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .bg-grid {
+    background-image: linear-gradient(hsl(var(--grid-color)) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--grid-color)) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+  .section-label {
+    @apply text-xs font-semibold uppercase tracking-widest text-muted-foreground;
   }
 }
 
@@ -83,4 +93,72 @@
 
 .animate-pro-pulse {
   animation: pro-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.55s ease-out forwards;
+}
+
+@keyframes flip-in {
+  from {
+    transform: rotateY(90deg);
+    opacity: 0;
+  }
+  to {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+.animate-flip-in {
+  animation: flip-in 0.45s ease-out forwards;
+  transform-style: preserve-3d;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+@keyframes scan-pulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-scan-pulse {
+  animation: scan-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes progress-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-progress-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(251, 191, 36, 0.3) 0%,
+    rgba(251, 191, 36, 0.8) 50%,
+    rgba(251, 191, 36, 0.3) 100%
+  );
+  background-size: 200% 100%;
+  animation: progress-shimmer 2s linear infinite;
 }
