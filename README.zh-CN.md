@@ -1,76 +1,140 @@
-# Mland
+# MedSkill 广场
 
 [English](./README.md) | 简体中文
 
-![PMP 智能平台 — 全栈医学研究工作台](./assets/pmp-platform-hero.png)
+![MedSkill 广场 — 医学生科研 SKILL 开放平台](./assets/pmp-platform-hero.png)
 
-**AI 原生企业智能体平台 — 生产级代码 + 私有化部署方案，让 LLM 直接落地三甲医院工作流。**
+**面向医学生的科研 SKILL 广场 — 用自然语言描述课题，一键调用封装好的分析工具，产出 SCI 级图表与统计结果。工科生贡献 Docker 技能包，医学生无需写代码。**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-cyan.svg)](LICENSE)
 [![Website](https://img.shields.io/badge/Website-mland.io-blue)](https://www.mland.io)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
-[![MCP](https://img.shields.io/badge/MCP-Server-purple)](mcp-server/)
-[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED)](docker-compose.yml)
+[![Docker](https://img.shields.io/badge/Docker-SKILL-purple)](templates/)
+[![MCP](https://img.shields.io/badge/MCP-Server-green)](mcp-server/)
 
-[快速开始](#快速开始) · [MedSkill 广场](#medskill-广场) · [Blueprint 方案](#blueprint-方案) · [私有化部署](#需要私有化部署我们进院实施) · [免费 vs Pro](#免费版-vs-pro) · [文档](https://www.mland.io/zh/docs/getting-started)
-
----
-
-## Mland 是什么？
-
-一条命令即可为你的 AI 助手提供完整的企业智能体栈 — ReAct 编排器、医疗工具、Hospital Adapter，以及从 Docker 到 Kubernetes 的完整部署闭环。
-
-> **已服务医院：** 长庚医院 · 航天中心医院
->
-> 在 **[www.mland.io](https://www.mland.io/zh)** 浏览全部方案 — MedSkill 广场、Agent Playground、部署指南与 Pro 定价一站搞定。支持 **中英文切换**：`/en` · `/zh`。
+[平台介绍](#medskill-广场是什么) · [医学生指南](#面向医学生) · [SKILL 目录](#skill-目录) · [贡献者指南](#面向贡献者) · [快速开始](#快速开始) · [定价](#定价)
 
 ---
 
-## MedSkill 广场
+## MedSkill 广场是什么？
 
-**自然语言 → 代码工作流** — 面向医学生与贡献者的低代码医学科研画布。
+**MedSkill 广场**是一个帮助**医学生做科研**的开放平台。把 GitHub 上成熟的开源分析工具封装成 **SKILL**（Docker 技能包），医学生用自然语言描述课题、上传脱敏数据、一键运行，即可拿到统计表、图表和文献引用。
 
-| 模块 | 说明 |
-|------|------|
-| **AI 智能看板 (Canvas)** | 输入科研目标 → 可视化工作流节点（预处理 → Cox 回归 → SCI 产出），支持 UI / 源码双向切换 |
-| **SKILL 广场** | 浏览 Docker 封装的科研工具 — 临床统计、基础生信、医学影像、组学分析 |
-| **Contributor Hub** | Git-ops 协同 — 提交 GitHub 仓库/PR，一键生成 `medskill.json`，获得算力币分成 |
-| **隐私拦截器** | 每次运行前本地 PHI 扫描 — Patient_ID / Hospital_No 浏览器侧 Hash 脱敏 |
+> 你描述科研目标 → 平台生成可视化工作流 → 调用经过验证的工具 → 输出三线表、生存曲线、森林图 —— **全程不用写代码**。
+
+**两类用户，一个广场：**
+
+| 角色 | 做什么 | 看到什么 |
+|------|--------|----------|
+| **医学生 / 使用者** | 上传脱敏数据、设定课题、运行 SKILL | 可视化 SOP 节点、SCI 图表预览、算力币计费 |
+| **贡献者 / 工科生** | 把 GitHub 仓库封装成 Docker SKILL，通过 Git 提交 | 源码视图、`medskill.json` 规范、收益看板 |
+
+在线体验：**[www.mland.io](https://www.mland.io/zh)** · 支持中英文 `/en` · `/zh`
+
+---
+
+## 面向医学生
+
+### MedSkill Canvas — 自然语言 → 科研工作流
+
+借鉴 **Natural Language to Code-Based Workflow** 理念：医学生看画布，工科生看代码。
+
+1. **描述课题** — 如：*「比较治疗组与对照组生存期差异，输出 KM 曲线和 Cox 回归」*
+2. **上传脱敏数据** — CSV / Excel；`Patient_ID`、`Hospital_No` 等在浏览器本地 Hash，不上传原文
+3. **生成分析路径** — AI 构建三步工作流：
+   - **数据预处理** — 带 🔒 本地已脱敏徽章
+   - **统计模型** — 如 Cox 比例风险回归 v1.2，滑块微调参数
+   - **SCI 产出** — 预览三线表、生存曲线矢量图
+4. **UI / 源码切换** — 每个节点右上角 `</>` 开关：医学生用 UI，专家看 R/Python 源码
+
+### 隐私拦截器
+
+每次运行 SKILL 前，本地扫描确认 PHI 字段已脱敏，签发**安全合规凭证**后才解锁运行 —— **原始患者数据不出浏览器**。
 
 ```bash
+git clone https://github.com/MermaidLiu/Mland.git
+cd Mland
+npm install
 npm run dev
-# 访问 http://localhost:3000/zh  （或 /en）
+# → http://localhost:3000/zh
 ```
 
-**已封装 SKILL 示例** — [nature-academic-search](https://github.com/wp-a/nature-academic-search)（PubMed / CrossRef / arXiv）：
+---
+
+## SKILL 目录
+
+科研 SKILL 是从 GitHub 开源工具 Docker 封装而来。选择工具、消耗算力币、获取结果。
+
+| SKILL | 分类 | 功能 |
+|-------|------|------|
+| **Cox 比例风险回归** | 临床统计 | 生存分析、HR/CI、森林图、SCI 三线表 |
+| **两组假设检验** | 临床统计 | t 检验 / Wilcoxon、箱线图 |
+| **DESeq2 差异表达** | 组学分析 | RNA-seq 差异基因、火山图、热图 |
+| **GSEA 通路富集** | 基础生信 | GO/KEGG 富集山脊图 |
+| **Academic Search**（[nature-academic-search](https://github.com/wp-a/nature-academic-search)） | 文献检索 | PubMed / CrossRef / arXiv、引用格式、MeSH |
+| **DICOM 病灶分割** | 医学影像 | ROI 分割与体积统计 |
 
 ```bash
+# 示例：运行学术搜索 SKILL
+cd templates/nature-academic-search
+cp .env.example .env   # 填写 PUBMED_EMAIL
+cp data/params.example.json data/params.json
 npm run skill:academic-search:build
 npm run skill:academic-search:run
 ```
 
+在广场浏览全部 SKILL：[www.mland.io](https://www.mland.io/zh) → **SKILL 广场** 标签页。
+
 ---
 
-## 需要私有化部署？我们进院实施
+## 面向贡献者
 
-开源版覆盖约 80% 的工程基座。剩下 20% — HIS 对接、加密真实数据存储、GPU 集群与合规 — **我们进院部署**。
+把开源科研工具封装成 SKILL，医学生每调用一次，你获得算力币分成。
 
-| | |
-|---|---|
-| ⚡ **PoC 验证** | **首付款 $5,000** · **1 天交付初稿** · Blueprint 部署至院内网络 |
-| 🚀 **4–8 周交付** | 生产级私有化部署 — Docker 或 K8s |
-| 🏥 **Pro** | Hospital Adapter、术语库导入、7×24 工程师 — **$0.05 / 病例** |
-| 💵 **企业版** | 源码级定制、信创适配、数据不出院 |
+### Git-ops 协同流程
 
-**联系：** [mermaid_liu@outlook.com](mailto:mermaid_liu@outlook.com) · [查看 Pro 定价](https://www.mland.io/zh/pricing)
+```
+Fork 仓库 → 提交 PR → CI 构建 Docker 镜像 → 合并上架 → SKILL 出现在广场
+```
+
+### Contributor Hub 功能
+
+- 提交 **GitHub 仓库 / PR 地址**
+- 一键生成 **`medskill.json`**（定义 Input / Output 字段类型）
+- 选择运行环境：**Python 3.10 · R 4.3 · Docker**
+- 查看调用次数、收益、云端容器负载
+
+### 封装新 SKILL 的目录结构
+
+```bash
+templates/your-skill/
+├── Dockerfile          # 构建时 clone 你的 GitHub 仓库
+├── run.sh              # 读 /data/params.json → 写 /data/output/
+├── medskill.json       # 平台接口规范
+├── docker-compose.yml
+└── deploy_guide.md
+```
+
+完整示例见 [templates/nature-academic-search/](templates/nature-academic-search/)。
+
+**需要我们帮你封装？** 首付款 $5,000 · 1 天交付初稿 · [mermaid_liu@outlook.com](mailto:mermaid_liu@outlook.com)
 
 ---
 
 ## 快速开始
 
-### 方式 1：MCP Server + Cursor（推荐）
+### 医学生 — 浏览器使用广场
 
-**步骤 1** — 在 Cursor 中添加 MCP：
+```bash
+git clone https://github.com/MermaidLiu/Mland.git
+cd Mland
+npm install
+npm run dev
+```
+
+打开 `http://localhost:3000/zh`，以**医学生**身份登录，进入 **AI 智能看板 (Canvas)** 体验。
+
+### 医学生 — 在 Cursor 中调用 SKILL
 
 ```json
 {
@@ -83,174 +147,59 @@ npm run skill:academic-search:run
 }
 ```
 
-**步骤 2** — 向 AI 发出指令：
+对 AI 说：*「列出所有科研 SKILL」* · *「在 PubMed 搜索糖尿病心血管死亡率相关文献」*
 
-- 「列出所有医疗 AI 方案」
-- 「为航天中心医院部署 PMP 智能体」
-- 「获取医患翻译助手的部署指南」
+### 贡献者 — 上架 SKILL
 
-**步骤 3** — 一键部署：
-
-```
-Use mland MCP deploy_solution to deploy pmp-agent on Docker
-```
-
-MCP 工具：`list_solutions` · `get_solution` · `deploy_solution`
+1. Fork 本仓库
+2. 在 `templates/<skill-name>/` 下添加你的封装
+3. 提交 PR，包含 `medskill.json` + `Dockerfile`
+4. 合并后 SKILL 自动出现在广场商店
 
 ---
 
-### 方式 2：CLI
+## 定价
 
-```bash
-# PMP 项目管理智能体 — 航天中心医院
-npx mland-cli add pmp-agent --hospital=Aerospace-Center-Hospital
+MedSkill 采用**算力币**按次计费 — 按 SKILL 调用量付费，无月租。
 
-# 医患翻译助手 — 长庚医院
-npx mland-cli add medical-translation --hospital=Chang-Gung-Hospital
+| 档位 | 适用对象 | 权益 | 价格 |
+|------|----------|------|------|
+| **免费版** | 医学生 | 演示数据、开源 SKILL、社区支持 | $0 |
+| **Pro** | 医学生 / 课题组 | 真实脱敏数据、GPU 推理、加密存储 | 约 $0.05 / 病例 |
+| **贡献者** | 工科生 / 开发者 | 学生调用你的 SKILL 获得分成 | 算力币抽成 |
+| **定制封装** | 课题组 / PI | 我们帮你把 GitHub 工具 Docker 化上架 | 首付 $5,000 起 |
 
-# 列出全部方案
-npx mland-cli list
-```
-
----
-
-### 方式 3：Docker 基础设施
-
-```bash
-git clone https://github.com/MermaidLiu/Mland.git
-cd Mland
-docker compose up -d    # Qdrant + Redis + PostgreSQL
-npm install
-npm run build:packages
-npm run dev             # 官网 localhost:3000
-```
+> 免费版仅供学习与 PoC。请上传脱敏数据 — 隐私拦截器会拦截原始 PHI。
 
 ---
 
-## Blueprint 方案
-
-每个 Blueprint 包含完整源码、`.env` 模板、`deploy_guide.md` 与 Docker Compose 配置。
-
-### 医疗 — 已生产交付
-
-| 方案 | 资产类型 | 客户 | CLI |
-|------|----------|------|-----|
-| **医患语言无障碍翻译助手** | 微信小程序 + AI Agent | 长庚医院 | `npx mland-cli add medical-translation --hospital=Chang-Gung-Hospital` |
-| **医院 PMP 项目管理智能体** | AI Agent | 航天中心医院 | `npx mland-cli add pmp-agent --hospital=Aerospace-Center-Hospital` |
-
-### 跨行业 — 开源 Blueprint
-
-| 方案 | 行业 | 资产类型 |
-|------|------|----------|
-| 制造业质检 AI 助手 | 制造 | 移动 APP |
-| **Academic Search**（[wp-a/nature-academic-search](https://github.com/wp-a/nature-academic-search)） | 基础生信 | Docker SKILL · PubMed / CrossRef / arXiv |
-
-> 完整目录：[www.mland.io/zh/industries](https://www.mland.io/zh/industries)
-
----
-
-## 包结构
-
-### `@mland/agent` — 智能体引擎
-
-| 模块 | 说明 |
-|------|------|
-| **Orchestrator** | 原生 TypeScript ReAct 循环（Reason + Act） |
-| **Tools** | `medical_translation` · `pmp_calculator`（SPI/CPI/EAC）· `risk_analyzer` |
-| **Memory** | `RedisMemory` 会话存储 · `VectorMemory` Qdrant 抽象 |
-
-### `@mland/core` — 企业适配层
-
-| 模块 | 说明 |
-|------|------|
-| **HospitalAdapter** | HIS / PMS 对接 — 患者、项目、翻译审计日志 |
-
-```typescript
-import { HospitalAdapter } from "@mland/core";
-
-const adapter = new HospitalAdapter({
-  endpoint: process.env.HIS_API_ENDPOINT!,
-  hospitalName: "Aerospace Center Hospital",
-});
-
-const projects = await adapter.getProjects();
-const patient = await adapter.getPatient("P001");
-```
-
-### `@mland/deploy` — 部署配置
-
-| 层级 | 说明 |
-|------|------|
-| **Docker Compose** | 社区版单副本，MIT |
-| **K8s（`isPro: true`）** | 3 副本 HPA + Prometheus 告警 + 7×24 监控 |
-
-### `mland-cli` — 命令行工具
-
-```bash
-npx mland-cli add <slug> [--hospital=Hospital-Name]
-npx mland-cli deploy <slug> --env=docker|k8s
-npx mland-cli list
-```
-
----
-
-## 目录结构
+## 项目结构
 
 ```
 Mland/
-├── packages/
-│   ├── mland-agent/              # ReAct 编排器 + Tools + Memory
-│   ├── mland-core/               # Hospital Adapter (HIS)
-│   ├── mland-deploy/             # K8s (Pro)
-│   └── mland-cli/                # CLI
-├── templates/                    # 开源 Blueprint + Docker SKILL
-│   ├── medical-translation/      #   长庚医院
-│   ├── pmp-agent/                #   航天中心医院
-│   ├── manufacturing-inspection/
-│   └── nature-academic-search/   #   PubMed / CrossRef / arXiv 学术搜索
-├── mcp-server/                   # MCP 服务（list / get / deploy）
 ├── src/
-│   ├── app/[locale]/             #   国际化路由 (/en, /zh)
-│   ├── components/medskill/       #   MedSkill 广场 SPA
-│   └── i18n/                     #   中英文字典
-├── assets/                       # README 与文档资源
-└── docker-compose.yml            # Qdrant + Redis + PostgreSQL
+│   ├── app/[locale]/             # 官网 (/en, /zh)
+│   └── components/medskill/      # MedSkill 广场 SPA
+│       ├── canvas-tab.tsx        #   医学生科研工作流画布
+│       ├── skill-store-tab.tsx   #   SKILL 应用商店
+│       ├── contributor-tab.tsx   #   贡献者 Git-ops 工作台
+│       └── privacy-interceptor.tsx
+├── templates/                    # Docker 封装的科研 SKILL
+│   └── nature-academic-search/   #   PubMed / CrossRef / arXiv 学术搜索
+├── mcp-server/                   # MCP 工具（Cursor / Claude 调用）
+├── packages/                     # 高级 SKILL 运行时
+└── docker-compose.yml            # Qdrant + Redis + Postgres
 ```
-
----
-
-## 免费版 vs Pro
-
-全部 Blueprint 智能体代码开源（MIT）。**Pro 提供生产级能力 — 按 $0.05 / 病例计费。**
-
-| | 社区版（免费） | Pro | 企业版 |
-|---|---|---|---|
-| Blueprint 源码 | ✅ 完整 MIT | ✅ 增强版 | ✅ 定制 Fork |
-| 演示数据 | ✅ 10 条 | ✅ | ✅ |
-| 真实病历 / 影像上传 | ❌ 拦截 | ✅ AES-256 加密 | ✅ |
-| HIS / LIS 对接 | ❌ | ✅ 定制 Hospital Adapter | ✅ 现场实施 |
-| 数据留存 | ❌ 24h 清除 | ✅ 持久化卷 | ✅ 院内机房 |
-| 推理 | CPU | GPU 集群 | GPU + 信创栈 |
-| 部署 | Docker | Docker + HA K8s | 私有化 + 合规 |
-| 支持 | 社区 Issue | 邮件 + 工单 | 7×24 专属工程师 |
-| **定价** | **$0** | **$0.05 / 病例** | **面议** |
-
-> ⚠️ 开源版仅供学习与 PoC。生产环境真实患者数据须使用 Pro。详见 [定价页](https://www.mland.io/zh/pricing)。
-
-**Pro 计费示例：** 10,000 病例/月 → **$500/月**。按处理量计费 — 无闲置存储费。
-
-Pro K8s 清单：`packages/mland-deploy/k8s/`（标记 `isPro: true`）
 
 ---
 
 ## 技术栈
 
-- **Agent：** TypeScript ReAct · LangChain 兼容接口
-- **Memory：** Redis · Qdrant 向量库
-- **Backend：** Next.js 14 · Node.js · FastAPI（模板）
-- **Deploy：** Docker Compose · Kubernetes · Vercel
-- **AI：** OpenAI / 本地 LLM · Whisper · RAG
-- **Hospital：** Hospital Adapter · HIS / PMS REST API
+- **前端：** Next.js 14 · React · Tailwind CSS · Lucide 图标
+- **SKILL 运行时：** Docker · Python 3.10 · R 4.3
+- **AI 集成：** MCP Server · Cursor · Claude Code
+- **隐私：** 浏览器侧 PHI Hash · 云端运行前本地扫描
+- **国际化：** 英文 / 简体中文
 
 ---
 
@@ -258,44 +207,32 @@ Pro K8s 清单：`packages/mland-deploy/k8s/`（标记 `isPro: true`）
 
 ```bash
 npm install
-docker compose up -d
-npm run build:packages
-npm run dev
-```
-
-复制环境变量：
-
-```bash
 cp .env.local.example .env.local
+npm run dev                              # 广场 localhost:3000
+npm run skill:academic-search:build      # 构建 SKILL 镜像
 ```
 
 ---
 
 ## 贡献指南
 
-欢迎贡献！
+欢迎社区贡献科研 SKILL！
 
-1. Fork 本仓库
-2. 创建功能分支（`git checkout -b feature/amazing-feature`）
-3. 提交更改（`git commit -m 'Add amazing feature'`）
-4. 推送分支（`git push origin feature/amazing-feature`）
-5. 提交 Pull Request
+1. **医学生** — 反馈缺失的分析类型、分享使用场景
+2. **贡献者** — 通过 PR 提交 Docker 封装的 GitHub 工具
+3. **维护者** — Review `medskill.json` 规范与 Dockerfile
 
-### 规范
-
-- Blueprint 模板保持 MIT 协议
-- Pro 配置（`isPro: true`）不接受开源 PR
-- 面向医院的功能请写清楚文档
+`templates/` 下所有 SKILL 模板遵循 **MIT 协议**。
 
 ---
 
 ## 许可证
 
-- `templates/` · `packages/mland-agent` · `packages/mland-core` · `mcp-server` — **MIT License**
-- `packages/mland-deploy/k8s/` Pro 配置 — 商业许可 · [mermaid_liu@outlook.com](mailto:mermaid_liu@outlook.com)
+- `templates/` · `src/components/medskill/` · `mcp-server/` — **MIT**
+- 商业 SKILL 定制封装与 Pro GPU 运行时 — [mermaid_liu@outlook.com](mailto:mermaid_liu@outlook.com)
 
 ---
 
-**已服务医院：** 长庚医院 · 航天中心医院
+为想做科研、不想搞运维的医学生而生。
 
-为医疗 AI 用心打造 · [www.mland.io](https://www.mland.io/zh)
+[www.mland.io](https://www.mland.io/zh) · [GitHub](https://github.com/MermaidLiu/Mland)
