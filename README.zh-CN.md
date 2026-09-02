@@ -12,7 +12,7 @@
 [![Docker](https://img.shields.io/badge/Docker-SKILL-purple)](templates/)
 [![MCP](https://img.shields.io/badge/MCP-Server-green)](mcp-server/)
 
-[平台介绍](#medskill-广场是什么) · [医学生指南](#面向医学生) · [SKILL 目录](#skill-目录) · [贡献者指南](#面向贡献者) · [快速开始](#快速开始) · [定价](#定价)
+[平台介绍](#medskill-广场是什么) · [医学生指南](#面向医学生) · [SKILL 目录](#skill-目录) · [贡献者指南](#面向贡献者) · [快速开始](#快速开始) · [定价](#定价) · [开源政策](#开源政策) · [许可证](#许可证)
 
 ---
 
@@ -160,16 +160,17 @@ npm run dev
 
 ## 定价
 
-MedSkill 采用**算力币**按次计费 — 按 SKILL 调用量付费，无月租。
+MedSkill 采用**算力币**计费 — 开源免费学，云端运行再付费。
 
 | 档位 | 适用对象 | 权益 | 价格 |
 |------|----------|------|------|
-| **免费版** | 医学生 | 演示数据、开源 SKILL、社区支持 | $0 |
-| **Pro** | 医学生 / 课题组 | 真实脱敏数据、GPU 推理、加密存储 | 约 $0.05 / 病例 |
-| **贡献者** | 工科生 / 开发者 | 学生调用你的 SKILL 获得分成 | 算力币抽成 |
-| **定制封装** | 课题组 / PI | 我们帮你把 GitHub 工具 Docker 化上架 | 首付 $5,000 起 |
+| **免费学生版** | 学习体验 | 100 算力币/月、演示数据、本地 MCP | $0 |
+| **Pro 个人版** | 硕博科研 | 2,000 算力币/月、脱敏数据上传、SCI 导出 | ¥39 / 月 |
+| **课题组版** | 导师 / 实验室 | 5 席位、共享 10,000 算力币/月 | ¥299 / 月 |
+| **贡献者** | 工科生 | 学生调用获 70% 算力币分成 | 分成制 |
+| **定制封装** | 课题组 / PI | 帮你把 GitHub 工具 Docker 化上架 | 首付 $5,000 起 |
 
-> 免费版仅供学习与 PoC。请上传脱敏数据 — 隐私拦截器会拦截原始 PHI。
+> 免费版仅供演示数据学习；Pro 可上传脱敏科研数据 — 隐私拦截器会拦截原始 PHI。完整定价：[www.mland.io/pricing](https://www.mland.io/zh/pricing)。
 
 ---
 
@@ -219,17 +220,81 @@ npm run skill:academic-search:build      # 构建 SKILL 镜像
 欢迎社区贡献科研 SKILL！
 
 1. **医学生** — 反馈缺失的分析类型、分享使用场景
-2. **贡献者** — 通过 PR 提交 Docker 封装的 GitHub 工具
+2. **贡献者** — 在 `templates/<your-skill>/` 下通过 PR 提交 Docker 封装
 3. **维护者** — Review `medskill.json` 规范与 Dockerfile
 
-`templates/` 下所有 SKILL 模板遵循 **MIT 协议**。
+经 PR 合并的新科研 SKILL 模板适用 **MIT 协议**（详见 [LICENSE](./LICENSE) 附录 A）。
+
+---
+
+## 开源政策
+
+MedSkill 广场采用 **Open Core（开放核心）** 模式：广场 UI、科研 SKILL 模板、MCP 工具链 MIT 开源；医院企业级 Blueprint、Agent 运行时包、云端托管服务为商业授权。
+
+### 开源（MIT）— 可免费自托管
+
+| 路径 | 说明 |
+|------|------|
+| `src/components/medskill/` | MedSkill 广场 SPA — Canvas、SKILL 商店、贡献者工作台 |
+| `templates/nature-academic-search/` | 学术搜索 SKILL（PubMed / CrossRef / arXiv） |
+| `templates/<your-skill>/` | 社区贡献的科研 SKILL（经 PR 合并） |
+| `mcp-server/` | MCP 服务器 — 在 Cursor / Claude 中列出并调用 SKILL |
+| `src/i18n/` · `src/app/[locale]/` | 双语网站与广场路由 |
+| `docker-compose.yml` | 本地开发栈（Qdrant、Redis、Postgres） |
+
+**在 MIT 许可下，你可以：**
+
+- 克隆、修改、自托管广场 UI
+- 本地构建并运行科研 SKILL Docker 镜像
+- 在 Cursor 中连接 MCP，无需付费账户
+- 通过 Pull Request 贡献新 SKILL 模板
+
+```bash
+# 社区版 — 无需云端账户
+git clone https://github.com/MermaidLiu/Mland.git
+cd Mland
+npm install && npm run dev
+npm run skill:academic-search:build
+```
+
+### 闭源（需商业授权）
+
+| 路径 | 说明 |
+|------|------|
+| `packages/mland-agent/` | ReAct 智能体编排器与工具链 |
+| `packages/mland-core/` | Hospital Adapter（HIS / LIS / EMR 对接） |
+| `packages/mland-cli/` | 医院部署 CLI |
+| `packages/mland-deploy/` | 生产环境 Kubernetes 配置 |
+| `templates/medical-translation/` | 医院医患翻译 Blueprint |
+| `templates/pmp-agent/` | 医院 PMP 智能体 Blueprint |
+| `templates/manufacturing-inspection/` | 制造业巡检 Blueprint |
+
+在生产环境使用上述路径，或基于其代码提供竞争性托管服务，需获取[商业授权](mailto:mermaid_liu@outlook.com)。
+
+### 云端服务（不在本仓库内）
+
+以下能力仅在 **[www.mland.io](https://www.mland.io)** 或签约合同中提供：
+
+- 云端 SKILL 运行时（GPU 队列、计费、算力币）
+- Pro / 课题组账户、加密存储、团队工作区
+- 贡献者收益结算
+- 托管式定制 SKILL 封装服务
+
+> **一句话：** 广场和 SKILL 开源自托管；云端算力和医院企业功能付费。
+
+完整法律文本：[LICENSE](./LICENSE)（附录 A · B · C）。
 
 ---
 
 ## 许可证
 
-- `templates/` · `src/components/medskill/` · `mcp-server/` — **MIT**
-- 商业 SKILL 定制封装与 Pro GPU 运行时 — [mermaid_liu@outlook.com](mailto:mermaid_liu@outlook.com)
+| 范围 | 协议 | 说明 |
+|------|------|------|
+| **附录 A** — MedSkill 广场、科研 SKILL、MCP | [MIT](./LICENSE) | 可自由使用、修改、自托管 |
+| **附录 B** — 企业级包与医院 Blueprint | 商业授权 | [mermaid_liu@outlook.com](mailto:mermaid_liu@outlook.com) |
+| **附录 C** — mland.io 云端托管运行时 | 服务协议 | Pro / 课题组套餐 |
+
+完整开源/闭源目录清单见 [LICENSE](./LICENSE)。
 
 ---
 

@@ -172,7 +172,7 @@ export function ContributorTab({
           <h3 className="text-lg font-semibold text-med-purple">Git-ops 协同机制</h3>
         </div>
         <p className="mb-5 text-sm text-gray-600">
-          通过 Git 提交新 SKILL — Fork → PR → CI 构建 → 自动上架。ThinkLoop 式「代码即工作流」贡献闭环。
+          通过 Git 提交新 SKILL — Fork → PR → CI 构建 → 自动上架。
         </p>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {GIT_OPS_STEPS.map((s) => (

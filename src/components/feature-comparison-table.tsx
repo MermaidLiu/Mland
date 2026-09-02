@@ -8,25 +8,22 @@ import { cn } from "@/lib/utils";
 
 function CellValue({
   value,
-  isPro,
+  accent,
   disabledLabel,
 }: {
   value: string | boolean;
-  isPro?: boolean;
+  accent?: boolean;
   disabledLabel: string;
 }) {
   if (typeof value === "boolean") {
     return value ? (
       <Check
-        className={cn(
-          "mx-auto h-5 w-5",
-          isPro ? "text-emerald-500" : "text-muted-foreground"
-        )}
+        className={cn("mx-auto h-5 w-5", accent ? "text-med-purple" : "text-muted-foreground")}
       />
     ) : (
       <span className="flex flex-col items-center gap-1">
         <X className="h-5 w-5 text-destructive" />
-        {!isPro && (
+        {!accent && (
           <span className="text-[10px] font-medium text-destructive/80">{disabledLabel}</span>
         )}
       </span>
@@ -36,9 +33,7 @@ function CellValue({
     <span
       className={cn(
         "text-sm",
-        isPro &&
-          (value.includes("24/7") || value.includes("7×24")) &&
-          "font-semibold text-emerald-600 dark:text-emerald-400"
+        accent && "font-semibold text-med-purple dark:text-med-purple-light"
       )}
     >
       {value}
@@ -60,17 +55,30 @@ export function FeatureComparisonTable({
   const { dict } = useI18n();
   const t = dict.comparison;
 
+  const columns = [
+    { key: "free" as const, label: t.columns.free, accent: false },
+    { key: "pro" as const, label: t.columns.pro, accent: true },
+    { key: "lab" as const, label: t.columns.lab, accent: false },
+  ];
+
   return (
     <div className={cn("space-y-4", className)}>
-      <div className="overflow-hidden rounded-xl border">
-        <table className="w-full text-left text-sm">
+      <div className="overflow-x-auto rounded-xl border">
+        <table className="w-full min-w-[640px] text-left text-sm">
           <thead>
             <tr className="border-b bg-muted/50">
               <th className="px-4 py-3 font-semibold">{t.columns.feature}</th>
-              <th className="px-4 py-3 text-center font-semibold">{t.columns.free}</th>
-              <th className="px-4 py-3 text-center font-semibold text-emerald-600 dark:text-emerald-400">
-                {t.columns.pro}
-              </th>
+              {columns.map((col) => (
+                <th
+                  key={col.key}
+                  className={cn(
+                    "px-4 py-3 text-center font-semibold",
+                    col.accent && "text-med-purple dark:text-med-purple-light"
+                  )}
+                >
+                  {col.label}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
@@ -79,43 +87,55 @@ export function FeatureComparisonTable({
                 key={row.feature}
                 className={cn(
                   "border-b last:border-0",
-                  "highlight" in row && row.highlight && "bg-orange-500/5"
+                  "highlight" in row && row.highlight && "bg-med-purple/5"
                 )}
               >
                 <td className="px-4 py-3 font-medium">
                   {"highlight" in row && row.highlight && (
-                    <span className="mr-1 text-orange-500">●</span>
+                    <span className="mr-1 text-med-amber">●</span>
                   )}
                   {row.feature}
                 </td>
-                <td className="px-4 py-3 text-center">
-                  {typeof row.free === "boolean" && !row.free ? (
-                    <span className="inline-flex flex-col items-center">
-                      <CellValue value={false} disabledLabel={t.disabled} />
-                      {"highlight" in row && row.highlight && (
-                        <span className="mt-1 rounded bg-destructive/10 px-2 py-0.5 text-[10px] text-destructive">
-                          {t.watermark}
-                        </span>
+                {columns.map((col) => {
+                  const value = row[col.key];
+                  const isBoolFalse = typeof value === "boolean" && !value;
+
+                  return (
+                    <td
+                      key={col.key}
+                      className={cn(
+                        "px-4 py-3 text-center",
+                        col.accent && "bg-med-purple/5"
                       )}
-                    </span>
-                  ) : (
-                    <CellValue value={row.free} disabledLabel={t.disabled} />
-                  )}
-                </td>
-                <td className="bg-emerald-500/5 px-4 py-3 text-center">
-                  {typeof row.pro === "boolean" && row.pro ? (
-                    <span className="inline-flex flex-col items-center">
-                      <CellValue value={true} isPro disabledLabel={t.disabled} />
-                      {"proHint" in row && row.proHint && (
-                        <span className="mt-1 text-[10px] font-medium text-emerald-600 dark:text-emerald-400">
-                          {row.proHint}
+                    >
+                      {isBoolFalse ? (
+                        <span className="inline-flex flex-col items-center">
+                          <CellValue value={false} disabledLabel={t.disabled} />
+                          {"highlight" in row && row.highlight && col.key === "free" && (
+                            <span className="mt-1 rounded bg-destructive/10 px-2 py-0.5 text-[10px] text-destructive">
+                              {t.watermark}
+                            </span>
+                          )}
                         </span>
+                      ) : typeof value === "boolean" && value ? (
+                        <span className="inline-flex flex-col items-center">
+                          <CellValue value={true} accent={col.accent} disabledLabel={t.disabled} />
+                          {"proHint" in row && row.proHint && col.accent && (
+                            <span className="mt-1 text-[10px] font-medium text-med-purple dark:text-med-purple-light">
+                              {row.proHint}
+                            </span>
+                          )}
+                        </span>
+                      ) : (
+                        <CellValue
+                          value={value}
+                          accent={col.accent}
+                          disabledLabel={t.disabled}
+                        />
                       )}
-                    </span>
-                  ) : (
-                    <CellValue value={row.pro} isPro disabledLabel={t.disabled} />
-                  )}
-                </td>
+                    </td>
+                  );
+                })}
               </tr>
             ))}
           </tbody>
@@ -123,13 +143,13 @@ export function FeatureComparisonTable({
       </div>
 
       {showWarning && (
-        <div className="rounded-lg border border-orange-500/30 bg-orange-500/10 px-4 py-3 text-sm text-orange-700 dark:text-orange-300">
+        <div className="rounded-lg border border-med-amber/30 bg-med-amber/10 px-4 py-3 text-sm text-orange-800 dark:text-orange-200">
           <em>{t.warning}</em>
         </div>
       )}
 
       {showCta && (
-        <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-emerald-500/20 bg-gradient-to-r from-emerald-500/5 to-cyan-500/5 p-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-med-purple/20 bg-gradient-to-r from-med-purple/5 to-med-amber/5 p-4">
           <div>
             <p className="font-semibold">{t.ctaTitle}</p>
             <p className="mt-1 text-sm text-muted-foreground">{t.ctaSubtitle}</p>
@@ -137,7 +157,7 @@ export function FeatureComparisonTable({
           <div className="flex gap-2">
             <ProUpgradeButton size="default" />
             <a
-              href={`mailto:${CONTACT_EMAIL}`}
+              href={`mailto:${CONTACT_EMAIL}?subject=MedSkill Lab Plan`}
               className="inline-flex items-center rounded-md border px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
             >
               {t.contactSales}

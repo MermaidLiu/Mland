@@ -4,6 +4,50 @@ export type AuthChannel = "student" | "contributor";
 
 export type MainTab = "research" | "store" | "contributor";
 
+export type ResearchType =
+  | "clinical-survival"
+  | "clinical-trial"
+  | "rnaseq"
+  | "literature-review"
+  | "imaging";
+
+export type JournalStyle =
+  | "sci-english"
+  | "cma-chinese"
+  | "lancet"
+  | "nature-family";
+
+export interface PublicationTarget {
+  researchType: ResearchType;
+  journalStyle: JournalStyle;
+}
+
+export interface PipelineStep {
+  id: string;
+  skillId: string | null;
+  title: string;
+  subtitle: string;
+  uiDescription: string;
+  cost: number;
+  isLocal?: boolean;
+  badge?: string;
+  highlight?: string;
+  journalNote?: string;
+  codeLang?: "python" | "r";
+  codeSnippet?: string;
+}
+
+export type DraftStatus = "editing" | "pipeline-ready" | "running" | "done";
+
+export interface DraftProject {
+  goal: string;
+  fileName: string | null;
+  target: PublicationTarget | null;
+  pipeline: PipelineStep[];
+  status: DraftStatus;
+  runningStepIndex: number;
+}
+
 export type SkillCategory =
   | "all"
   | "clinical"
@@ -45,6 +89,7 @@ export interface ContributorStats {
 
 export type WorkflowNodeId = "preprocess" | "algorithm" | "output";
 
+/** @deprecated Use PipelineStep for skill-backed workflows */
 export interface WorkflowNodeData {
   id: WorkflowNodeId;
   title: string;

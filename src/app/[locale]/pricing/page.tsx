@@ -11,8 +11,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!isValidLocale(params.locale)) return {};
   const dict = getDictionary(params.locale as Locale);
   return {
-    title: dict.nav.pricing,
-    description: dict.meta.description,
+    title: `${dict.nav.pricing} — MedSkill Plaza`,
+    description: dict.pricing.subtitle,
   };
 }
 

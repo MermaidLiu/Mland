@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 Mland
+Copyright (c) 2026 Mland / MedSkill Plaza
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,149 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+================================================================================
+ADDITIONAL LICENSING TERMS — OPEN CORE MODEL
+================================================================================
+
+This repository uses an Open Core licensing model. The MIT License above
+applies ONLY to the files and directories listed in Appendix A.
+
+Files listed in Appendix B are proprietary. They are included in this
+repository for reference and evaluation only. You may not use, copy, modify,
+or distribute Appendix B components in production without a separate
+commercial license.
+
+Services listed in Appendix C are not part of this repository and require
+a paid plan on https://www.mland.io or a commercial agreement.
+
+For commercial licensing inquiries:
+  Email: mermaid_liu@outlook.com
+
+--------------------------------------------------------------------------------
+APPENDIX A — OPEN SOURCE (MIT LICENSE)
+--------------------------------------------------------------------------------
+
+The following paths are licensed under the MIT License above.
+
+Community Edition — MedSkill Plaza (medical student research SKILL marketplace):
+
+  src/components/medskill/          MedSkill Plaza SPA (Canvas, Store, Contributor Hub)
+  src/components/i18n-provider.tsx
+  src/components/locale-link.tsx
+  src/components/locale-switcher.tsx
+  src/components/locale-layout-client.tsx
+  src/components/pages/pricing-page-content.tsx
+  src/components/pages/privacy-page-content.tsx
+  src/components/pages/docs-page-content.tsx
+  src/components/feature-comparison-table.tsx
+  src/i18n/                         Bilingual dictionaries (en / zh)
+  src/lib/pricing.ts                Public pricing constants
+  src/middleware.ts                 Locale routing
+  src/app/[locale]/                 Website routes (plaza home, pricing, privacy, docs)
+  public/                           Static assets
+  assets/                           README images
+
+Research SKILL templates (Docker-wrapped open-source tools):
+
+  templates/nature-academic-search/   Academic Search SKILL (PubMed / CrossRef / arXiv)
+  templates/<your-skill>/             New research SKILLs contributed via PR *
+                                      Must include medskill.json + Dockerfile + run.sh
+
+  * Community-contributed directories under templates/ that follow the
+    medskill.json specification and are merged via pull request are
+    licensed MIT unless otherwise noted in that directory.
+
+Developer tooling:
+
+  mcp-server/                       MCP server for Cursor / Claude (list & run SKILLs)
+
+Local development infrastructure:
+
+  docker-compose.yml                Qdrant + Redis + Postgres for local dev
+  .env.local.example
+  tailwind.config.ts
+  tsconfig.json
+  package.json                      Scripts for local dev & SKILL builds (see Appendix B
+                                    for proprietary workspace packages)
+
+Shared UI components (usable with Community Edition):
+
+  src/components/ui/
+  src/components/copy-command.tsx
+  src/app/globals.css
+  src/app/layout.tsx
+  src/app/sitemap.ts
+
+Documentation:
+
+  README.md
+  README.zh-CN.md
+  LICENSE                           (this file)
+
+--------------------------------------------------------------------------------
+APPENDIX B — PROPRIETARY (COMMERCIAL LICENSE REQUIRED)
+--------------------------------------------------------------------------------
+
+The following paths are NOT licensed under MIT. All rights reserved.
+
+Enterprise agent runtime & hospital integration:
+
+  packages/mland-agent/             ReAct orchestrator, agent memory, medical/PMP tools
+  packages/mland-core/              Hospital Adapter (HIS / LIS / EMR integration)
+  packages/mland-cli/               Hospital deployment CLI (npx mland-cli)
+  packages/mland-deploy/            Production Kubernetes manifests & monitoring
+
+Enterprise Blueprint templates (hospital / manufacturing deployments):
+
+  templates/medical-translation/    Hospital medical translation mini-program blueprint
+  templates/pmp-agent/              Hospital PMP project management agent blueprint
+  templates/manufacturing-inspection/  Manufacturing inspection blueprint
+
+Legacy enterprise marketing pages (reference Pro blueprints; UI code in src/ is MIT,
+but Blueprint content and deploy guides in the paths above are proprietary):
+
+  src/lib/data.ts                   Enterprise solution catalog (references Appendix B)
+  src/components/pages/industries-page-content.tsx
+  src/components/pages/solution-detail-content.tsx
+  src/components/solution-*.tsx     Solution detail UI wired to enterprise blueprints
+  src/components/marketing/         Legacy enterprise homepage sections
+  src/components/open-vs-pro-section.tsx
+  src/components/pro-upgrade-button.tsx
+  src/components/upgrade-modal.tsx
+  src/app/[locale]/industries/
+  src/app/[locale]/solution/
+
+You may read these files to understand the platform architecture. Production use —
+including deploying enterprise blueprints, running the Hospital Adapter, or
+offering competing hosted services built on Appendix B code — requires a
+commercial license from Mland.
+
+--------------------------------------------------------------------------------
+APPENDIX C — CLOUD SERVICES (NOT IN THIS REPOSITORY)
+--------------------------------------------------------------------------------
+
+The following capabilities are offered only as hosted services at
+https://www.mland.io or under a commercial agreement. They are not included
+in this open-source release:
+
+  - Cloud SKILL runtime (GPU scheduling, job queue, container orchestration)
+  - User accounts, authentication, and compute-coin billing
+  - Contributor revenue share settlement
+  - Pro encrypted storage and extended result retention
+  - Lab team workspaces and advisor approval flows
+  - Custom SKILL packaging as a managed service
+
+Self-hosting Appendix A components is free under MIT. Running the full
+hosted plaza experience requires a Pro, Lab, or commercial plan.
+
+--------------------------------------------------------------------------------
+TRADEMARKS
+--------------------------------------------------------------------------------
+
+"MedSkill", "MedSkill Plaza", "Mland", and associated logos are trademarks of
+Mland. The MIT License does not grant permission to use these trademarks to
+imply endorsement or to offer confusingly similar services.
+
+Community contributors may say "Built with MedSkill Plaza" when distributing
+MIT-licensed SKILL templates that comply with the medskill.json specification.

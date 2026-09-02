@@ -1,18 +1,28 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { LayoutDashboard, Store, GitPullRequest } from "lucide-react";
+import { LayoutDashboard, Library, GitPullRequest } from "lucide-react";
 import { AuthModal } from "./auth-modal";
 import { MedSkillNavbar } from "./navbar";
 import { CanvasTab } from "./canvas-tab";
 import { SkillStoreTab } from "./skill-store-tab";
 import { ContributorTab } from "./contributor-tab";
 import { DEFAULT_CONTRIBUTOR_STATS } from "./mock-data";
-import type { ContributorStats, MainTab, User, UserRole } from "./types";
+import { pipelineTotalCost } from "./workflow-recommendations";
+import type { ContributorStats, DraftProject, MainTab, SkillItem, User, UserRole } from "./types";
+
+const EMPTY_DRAFT: DraftProject = {
+  goal: "",
+  fileName: null,
+  target: null,
+  pipeline: [],
+  status: "editing",
+  runningStepIndex: 0,
+};
 
 const TABS: { id: MainTab; label: string; icon: typeof LayoutDashboard }[] = [
-  { id: "research", label: "AI 智能看板 (Canvas)", icon: LayoutDashboard },
-  { id: "store", label: "SKILL 广场", icon: Store },
+  { id: "research", label: "科研工作流", icon: LayoutDashboard },
+  { id: "store", label: "浏览技能库", icon: Library },
   { id: "contributor", label: "Contributor Hub", icon: GitPullRequest },
 ];
 
@@ -21,12 +31,17 @@ export function MedSkillApp() {
   const [authOpen, setAuthOpen] = useState(false);
   const [balance, setBalance] = useState(1250);
   const [tab, setTab] = useState<MainTab>("research");
+  const [draft, setDraft] = useState<DraftProject>(EMPTY_DRAFT);
   const [stats, setStats] = useState<ContributorStats>(DEFAULT_CONTRIBUTOR_STATS);
   const [toast, setToast] = useState<string | null>(null);
 
   const showToast = useCallback((msg: string) => {
     setToast(msg);
     window.setTimeout(() => setToast(null), 2200);
+  }, []);
+
+  const handleDraftChange = useCallback((patch: Partial<DraftProject>) => {
+    setDraft((prev) => ({ ...prev, ...patch }));
   }, []);
 
   const handleLogin = useCallback(
@@ -41,6 +56,7 @@ export function MedSkillApp() {
   const handleLogout = useCallback(() => {
     setUser(null);
     setTab("research");
+    setDraft(EMPTY_DRAFT);
     showToast("已退出登录");
   }, [showToast]);
 
@@ -71,6 +87,35 @@ export function MedSkillApp() {
     [balance]
   );
 
+  const handleAddToPipeline = useCallback(
+    (skill: SkillItem) => {
+      const exists = draft.pipeline.some((s) => s.skillId === skill.id);
+      if (exists) {
+        showToast("该 SKILL 已在流水线中");
+        return;
+      }
+      const newStep = {
+        id: `skill-${skill.id}-${Date.now()}`,
+        skillId: skill.id,
+        title: skill.name,
+        subtitle: `${skill.version} · ${skill.contributor}`,
+        uiDescription: skill.description,
+        cost: skill.cost,
+        highlight: skill.previewTitle,
+        codeLang: (skill.category === "clinical" ? "r" : "python") as "python" | "r",
+        codeSnippet: `# SKILL: ${skill.id}\n# 输出: ${skill.previewTitle}`,
+      };
+      setDraft((prev) => ({
+        ...prev,
+        pipeline: [...prev.pipeline, newStep],
+        status: prev.pipeline.length > 0 ? "pipeline-ready" : prev.status,
+      }));
+      showToast(`已加入流水线 · ${skill.name}`);
+      setTab("research");
+    },
+    [draft.pipeline, showToast]
+  );
+
   const handlePublish = useCallback(() => {
     setStats((s) => ({
       ...s,
@@ -79,6 +124,8 @@ export function MedSkillApp() {
     }));
     showToast("SKILL 封装上架成功");
   }, [showToast]);
+
+  const pipelineCost = pipelineTotalCost(draft.pipeline);
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
@@ -94,13 +141,13 @@ export function MedSkillApp() {
       <section className="border-b border-gray-100 bg-med-purple">
         <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-400">
-            Natural Language → Code-Based Workflow
+            课题 → 推荐 SKILL 链 → 一键下单
           </p>
           <h1 className="mt-2 max-w-2xl text-3xl font-bold tracking-tight text-white md:text-4xl">
-            MedSkill Canvas · 低代码医学科研画布
+            MedSkill 科研工作流
           </h1>
           <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/75 md:text-base">
-            医学生看可视化 SOP 与 SCI 图表；工科大牛一键切换底层 R / Python 源码。
+            描述课题、上传脱敏数据、选择发表目标 — 系统自动推荐 SKILL 执行顺序，确认后一键运行。
           </p>
         </div>
       </section>
@@ -123,6 +170,11 @@ export function MedSkillApp() {
               >
                 <Icon className={`h-4 w-4 ${active ? "text-amber-500" : ""}`} />
                 {item.label}
+                {item.id === "research" && draft.pipeline.length > 0 && (
+                  <span className="rounded-full bg-amber-400 px-1.5 py-0.5 text-[10px] font-bold text-med-purple">
+                    {draft.pipeline.length}
+                  </span>
+                )}
                 {active && (
                   <span className="absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-amber-400" />
                 )}
@@ -135,6 +187,9 @@ export function MedSkillApp() {
       <main className="mx-auto max-w-6xl px-4 py-8">
         {tab === "research" && (
           <CanvasTab
+            draft={draft}
+            onDraftChange={handleDraftChange}
+            onBrowseSkills={() => setTab("store")}
             isLoggedIn={!!user}
             balance={balance}
             onRequireAuth={() => setAuthOpen(true)}
@@ -143,9 +198,11 @@ export function MedSkillApp() {
         )}
         {tab === "store" && (
           <SkillStoreTab
+            draft={draft}
             isLoggedIn={!!user}
             onRequireAuth={() => setAuthOpen(true)}
-            onSpend={handleSpend}
+            onAddToPipeline={handleAddToPipeline}
+            onGoToWorkflow={() => setTab("research")}
           />
         )}
         {tab === "contributor" && (
@@ -161,7 +218,12 @@ export function MedSkillApp() {
 
       <footer className="border-t border-gray-100 bg-gray-50 py-8">
         <div className="mx-auto max-w-6xl px-4 text-center text-xs text-gray-500">
-          MedSkill Canvas · 医学科研低代码画布 · PHI 本地脱敏
+          MedSkill 科研工作流 · 技能库驱动 · PHI 本地脱敏
+          {draft.pipeline.length > 0 && (
+            <span className="ml-2 text-med-purple">
+              · 当前流水线 {draft.pipeline.length} 步 / {pipelineCost} 算力币
+            </span>
+          )}
         </div>
       </footer>
 

@@ -12,7 +12,7 @@ English | [简体中文](./README.zh-CN.md)
 [![Docker](https://img.shields.io/badge/Docker-SKILL-purple)](templates/)
 [![MCP](https://img.shields.io/badge/MCP-Server-green)](mcp-server/)
 
-[What is MedSkill](#what-is-medskill-plaza) · [For Students](#for-medical-students) · [SKILL Catalog](#skill-catalog) · [For Contributors](#for-contributors) · [Quick Start](#quick-start) · [Pricing](#pricing)
+[What is MedSkill](#what-is-medskill-plaza) · [For Students](#for-medical-students) · [SKILL Catalog](#skill-catalog) · [For Contributors](#for-contributors) · [Quick Start](#quick-start) · [Pricing](#pricing) · [Open Source Policy](#open-source-policy) · [License](#license)
 
 ---
 
@@ -161,16 +161,17 @@ Ask your AI: *"List all research SKILLs"* · *"Search PubMed for diabetes cardio
 
 ## Pricing
 
-MedSkill uses **compute coins** — pay per SKILL run, not per subscription.
+MedSkill uses **compute coins** — open source to learn, pay when you run in the cloud.
 
 | Tier | Who | What you get | Price |
 |------|-----|--------------|-------|
-| **Free** | Students | Demo data, open-source SKILLs, community support | $0 |
-| **Pro** | Students / labs | Real de-identified datasets, GPU inference, encrypted storage | ~$0.05 / case |
-| **Contributor** | Engineers | Revenue share when students run your SKILL | % of compute coins |
-| **Custom packaging** | Labs / PI | We Docker-wrap your GitHub tool for the plaza | From $5,000 |
+| **Student Free** | Learners | 100 coins/mo, demo data, local MCP | $0 |
+| **Pro** | Individual researchers | 2,000 coins/mo, de-identified uploads, SCI export | $5.99 / mo |
+| **Lab** | Advisor / research group | 5 seats, 10,000 shared coins/mo | $49 / mo |
+| **Contributor** | Engineers | 70% revenue share per SKILL run | Coin split |
+| **Custom packaging** | Labs / PI | We Docker-wrap your GitHub tool | From $5,000 down |
 
-> Free tier is for learning and PoC. Upload de-identified data only — the Privacy Interceptor blocks raw PHI.
+> Free tier is for learning with demo data. Upload de-identified data on Pro — the Privacy Interceptor blocks raw PHI. Full pricing: [www.mland.io/pricing](https://www.mland.io/en/pricing).
 
 ---
 
@@ -220,17 +221,81 @@ npm run skill:academic-search:build   # Build a SKILL image
 We welcome research SKILLs from the community!
 
 1. **Students** — report missing analysis types, share use cases
-2. **Contributors** — submit Docker-wrapped GitHub tools via PR
+2. **Contributors** — submit Docker-wrapped GitHub tools via PR under `templates/<your-skill>/`
 3. **Maintainers** — review `medskill.json` schemas and Dockerfiles
 
-All SKILL templates under `templates/` are **MIT License**.
+New research SKILL templates merged via PR are **MIT licensed** (see [LICENSE](./LICENSE) Appendix A).
+
+---
+
+## Open Source Policy
+
+MedSkill Plaza follows an **Open Core** model: the plaza UI, research SKILL templates, and MCP tooling are MIT open source. Enterprise hospital blueprints, agent runtime packages, and the hosted cloud runtime are commercial.
+
+### Open source (MIT) — self-host for free
+
+| Path | What it is |
+|------|------------|
+| `src/components/medskill/` | MedSkill Plaza SPA — Canvas, SKILL Store, Contributor Hub |
+| `templates/nature-academic-search/` | Academic Search SKILL (PubMed / CrossRef / arXiv) |
+| `templates/<your-skill>/` | Community research SKILLs contributed via PR |
+| `mcp-server/` | MCP server — list & invoke SKILLs from Cursor / Claude |
+| `src/i18n/` · `src/app/[locale]/` | Bilingual website & plaza routes |
+| `docker-compose.yml` | Local dev stack (Qdrant, Redis, Postgres) |
+
+**You can, under MIT:**
+
+- Clone, modify, and self-host the plaza UI
+- Build and run research SKILL Docker images locally
+- Connect MCP in Cursor without a paid account
+- Contribute new SKILL templates via pull request
+
+```bash
+# Community Edition — no cloud account required
+git clone https://github.com/MermaidLiu/Mland.git
+cd Mland
+npm install && npm run dev
+npm run skill:academic-search:build
+```
+
+### Proprietary (commercial license required)
+
+| Path | What it is |
+|------|------------|
+| `packages/mland-agent/` | ReAct agent orchestrator & tools |
+| `packages/mland-core/` | Hospital Adapter (HIS / LIS / EMR) |
+| `packages/mland-cli/` | Hospital deployment CLI |
+| `packages/mland-deploy/` | Production Kubernetes manifests |
+| `templates/medical-translation/` | Hospital translation blueprint |
+| `templates/pmp-agent/` | Hospital PMP agent blueprint |
+| `templates/manufacturing-inspection/` | Manufacturing blueprint |
+
+Production use of these paths — or offering a competing hosted service built on them — requires a [commercial license](mailto:mermaid_liu@outlook.com).
+
+### Cloud services (not in this repo)
+
+These run only on **[www.mland.io](https://www.mland.io)** or under contract:
+
+- Cloud SKILL runtime (GPU queue, billing, compute coins)
+- Pro / Lab accounts, encrypted storage, team workspaces
+- Contributor revenue settlement
+- Managed custom SKILL packaging
+
+> **Summary:** Open source the plaza and SKILLs; pay for cloud compute and enterprise hospital features.
+
+Full legal text: [LICENSE](./LICENSE) (Appendices A · B · C).
 
 ---
 
 ## License
 
-- `templates/` · `src/components/medskill/` · `mcp-server/` — **MIT**
-- Commercial SKILL packaging & Pro GPU runtime — [mermaid_liu@outlook.com](mailto:mermaid_liu@outlook.com)
+| Scope | License | Details |
+|-------|---------|---------|
+| **Appendix A** — MedSkill Plaza, research SKILLs, MCP | [MIT](./LICENSE) | Free to use, modify, self-host |
+| **Appendix B** — Enterprise packages & hospital blueprints | Commercial | [mermaid_liu@outlook.com](mailto:mermaid_liu@outlook.com) |
+| **Appendix C** — Hosted cloud runtime on mland.io | Service agreement | Pro / Lab plans |
+
+See [LICENSE](./LICENSE) for the complete open-source / proprietary directory listing.
 
 ---
 
